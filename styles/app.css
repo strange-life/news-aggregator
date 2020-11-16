@@ -18,7 +18,8 @@
   box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
   padding: 0;
   margin: 0;
   height: 100%;
@@ -37,32 +38,32 @@ body {
   display: -ms-flexbox;
   display: flex;
   -webkit-flex-direction: column;
-      -ms-flex-direction: column;
-          flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
   -webkit-flex-wrap: nowrap;
-      -ms-flex-wrap: nowrap;
-          flex-wrap: nowrap;
+  -ms-flex-wrap: nowrap;
+  flex-wrap: nowrap;
   -webkit-justify-content: flex-start;
-      -ms-flex-pack: start;
-          justify-content: flex-start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
   -webkit-align-items: stretch;
-      -ms-flex-align: stretch;
-          align-items: stretch;
+  -ms-flex-align: stretch;
+  align-items: stretch;
   -ms-flex-line-pack: stretch;
-      -webkit-align-content: stretch;
-          align-content: stretch;
+  -webkit-align-content: stretch;
+  align-content: stretch;
   background: #ececec;
 }
 
 a {
-  color: #E65100;
+  color: #e65100;
 }
 
 .header {
   width: 100%;
   height: 156px;
-  background: #FF8F00;
-  color: #FFF;
+  background: #ff8f00;
+  color: #fff;
   font-size: 40px;
   font-weight: 400;
   padding: 0 0 0 72px;
@@ -74,7 +75,7 @@ a {
   position: absolute;
   bottom: 16px;
   -webkit-transform-origin: 0 100%;
-          transform-origin: 0 100%;
+  transform-origin: 0 100%;
 }
 
 .header__title {
@@ -100,19 +101,19 @@ body.details-active .story__score {
 }
 
 body.details-active .story {
-  background: linear-gradient(to bottom, #FFF 0%, #FFF 100%);
+  background: linear-gradient(to bottom, #fff 0%, #fff 100%);
 }
 
 body.raised .header {
   box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.16),
-      0px 2px 5px 0px rgba(0, 0, 0, 0.23);
+    0px 2px 5px 0px rgba(0, 0, 0, 0.23);
 }
 
 main {
   padding-top: 156px;
   -webkit-flex: 1;
-      -ms-flex: 1;
-          flex: 1;
+  -ms-flex: 1;
+  flex: 1;
   overflow-x: hidden;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
@@ -124,29 +125,41 @@ main.loading {
   background-size: 24px 24px;
 
   -webkit-animation-name: spin;
-          animation-name: spin;
+  animation-name: spin;
   -webkit-animation-duration: 500ms;
-          animation-duration: 500ms;
+  animation-duration: 500ms;
   -webkit-animation-iteration-count: infinite;
-          animation-iteration-count: infinite;
+  animation-iteration-count: infinite;
   -webkit-animation-timing-function: linear;
-          animation-timing-function: linear;
+  animation-timing-function: linear;
 }
 
 @-webkit-keyframes spin {
-  from { -webkit-transform: rotate(0deg); transform: rotate(0deg); }
-  to { -webkit-transform: rotate(360deg); transform: rotate(360deg); }
+  from {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
 }
 
 @keyframes spin {
-  from { -webkit-transform: rotate(0deg); transform: rotate(0deg); }
-  to { -webkit-transform: rotate(360deg); transform: rotate(360deg); }
+  from {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
 }
 
 .story {
   padding: 16px 16px 16px 72px;
-  background: #FFF;
-  background: linear-gradient(to bottom, #FFF 0%,#F4F4F4 100%);
+  background: #fff;
+  background: linear-gradient(to bottom, #fff 0%, #f4f4f4 100%);
   position: relative;
   min-height: 90px;
   cursor: pointer;
@@ -163,14 +176,14 @@ main.loading {
   border-bottom: 1px solid #dedede;
 }
 
-.story:nth-last-child(-n+1):after {
+.story:nth-last-child(-n + 1):after {
   display: none;
 }
 
 .story__title {
   font-size: 20px;
   font-weight: 500;
-  color: rgba(0,0,0,0.87);
+  color: rgba(0, 0, 0, 0.87);
   margin: 0;
   padding: 0;
   line-height: 32px;
@@ -178,7 +191,7 @@ main.loading {
 
 .story__by,
 .story-details__by {
-  color: rgba(0,0,0,0.54);
+  color: rgba(0, 0, 0, 0.54);
   font-size: 14px;
   font-weight: 400;
   line-height: 24px;
@@ -188,9 +201,9 @@ main.loading {
   position: absolute;
   width: 40px;
   height: 40px;
-  background: #FFB300;
+  background: #ffb300;
   border-radius: 50%;
-  color: rgba(255,255,255,0.87);
+  color: rgba(255, 255, 255, 0.87);
   font-weight: 500;
   font-size: 13px;
   left: 16px;
@@ -198,10 +211,8 @@ main.loading {
   text-align: center;
   line-height: 40px;
 
-  box-shadow:
-      0px 2px 5px 0px rgba(0, 0, 0, 0.06),
-      0px 2px 5px 0px rgba(0, 0, 0, 0.08),
-      0px 2px 7px 0px rgba(0, 0, 0, 0.10);
+  box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.06),
+    0px 2px 5px 0px rgba(0, 0, 0, 0.08), 0px 2px 7px 0px rgba(0, 0, 0, 0.1);
 }
 
 .story-details {
@@ -209,20 +220,20 @@ main.loading {
   display: -ms-flexbox;
   display: flex;
   -webkit-flex-direction: column;
-      -ms-flex-direction: column;
-          flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
   -webkit-flex-wrap: nowrap;
-      -ms-flex-wrap: nowrap;
-          flex-wrap: nowrap;
+  -ms-flex-wrap: nowrap;
+  flex-wrap: nowrap;
   -webkit-justify-content: flex-start;
-      -ms-flex-pack: start;
-          justify-content: flex-start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
   -webkit-align-items: stretch;
-      -ms-flex-align: stretch;
-          align-items: stretch;
+  -ms-flex-align: stretch;
+  align-items: stretch;
   -ms-flex-line-pack: stretch;
-      -webkit-align-content: stretch;
-          align-content: stretch;
+  -webkit-align-content: stretch;
+  align-content: stretch;
 
   opacity: 0;
   position: fixed;
@@ -232,10 +243,8 @@ main.loading {
   height: 100%;
   background: white;
   z-index: 2;
-  box-shadow:
-      0px 2px 5px 0px rgba(0, 0, 0, 0.06),
-      0px 2px 5px 0px rgba(0, 0, 0, 0.08),
-      0px 2px 7px 0px rgba(0, 0, 0, 0.10);
+  box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.06),
+    0px 2px 5px 0px rgba(0, 0, 0, 0.08), 0px 2px 7px 0px rgba(0, 0, 0, 0.1);
 
   overflow: hidden;
   transition: opacity 0.3s ease-out;
@@ -248,8 +257,8 @@ main.loading {
 
 .story-details__content {
   -webkit-flex: 1;
-      -ms-flex: 1;
-          flex: 1;
+  -ms-flex: 1;
+  flex: 1;
   overflow-x: hidden;
   overflow-y: auto;
 
@@ -259,26 +268,26 @@ main.loading {
 }
 
 .story-details__title {
-  color: #FFF;
+  color: #fff;
   font-size: 20px;
   font-weight: 400;
   line-height: 24px;
 }
 
 .story-details__title-link {
-  color: #FFF;
+  color: #fff;
   opacity: 0.6;
 }
 
 .story-details__url {
   font-size: 14px;
-  color: rgba(255,255,255,0.6);
+  color: rgba(255, 255, 255, 0.6);
   font-weight: 400;
 }
 
 .story-details__header {
   padding: 16px 16px 64px 72px;
-  background: #FFA000;
+  background: #ffa000;
   position: absolute;
   left: 0;
   top: 0;
@@ -300,7 +309,7 @@ main.loading {
 }
 
 .story-details__meta {
-  background: #FFC107;
+  background: #ffc107;
   height: 40px;
   position: absolute;
   bottom: 0;
@@ -308,7 +317,7 @@ main.loading {
   width: 100%;
   padding-left: 72px;
   line-height: 40px;
-  color: rgba(0,0,0,0.57);
+  color: rgba(0, 0, 0, 0.57);
 }
 
 .story-details__comment {
@@ -333,8 +342,8 @@ main.loading {
 .story-details__link {
   display: inline-block;
   padding: 10px;
-  background: #FF8F00;
-  color: #FFF;
+  background: #ff8f00;
+  color: #fff;
   border-radius: 2px;
   text-decoration: none;
   margin-top: 30px;
