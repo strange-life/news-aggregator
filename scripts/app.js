@@ -20,6 +20,7 @@ APP.Main = (function () {
 
   var stories = null;
   var storyStart = 0;
+  var storyEnd = 0;
   var count = 100;
   var main = $('main');
   var storyDetails;
@@ -50,30 +51,55 @@ APP.Main = (function () {
   var storyDetailsTemplate = Handlebars.compile(tmplStoryDetails);
   var storyDetailsCommentTemplate = Handlebars.compile(tmplStoryDetailsComment);
 
+  var defaultStoryHtml = storyTemplate({
+    title: '...',
+    score: '-',
+    by: '...',
+    time: 0,
+  });
+
+  function makeStory() {
+    if (storyStart === storyEnd) return;
+
+    var storiesFragment = document.createDocumentFragment();
+    // make 10 story per frame
+    var end = Math.min(storyStart + 10, storyEnd);
+
+    while (storyStart < end) {
+      var key = stories[storyStart];
+      var story = document.createElement('div');
+
+      story.setAttribute('id', 's-' + key);
+      story.classList.add('story');
+      story.innerHTML = defaultStoryHtml;
+      storiesFragment.appendChild(story);
+
+      (function (story) {
+        APP.Data.getStoryById(key, function (details) {
+          requestAnimationFrame(onStoryData.bind(this, story, details));
+        });
+      })(story);
+
+      storyStart++;
+    }
+
+    main.appendChild(storiesFragment);
+    requestAnimationFrame(makeStory);
+  }
+
   /**
    * As every single story arrives in shove its
    * content in at that exact moment. Feels like something
    * that should really be handled more delicately, and
    * probably in a requestAnimationFrame callback.
    */
-  function onStoryData(key, details) {
-    // This seems odd. Surely we could just select the story
-    // directly rather than looping through all of them.
-    var storyElements = document.querySelectorAll('.story');
-
-    for (var i = 0; i < storyElements.length; i++) {
-      if (storyElements[i].getAttribute('id') === 's-' + key) {
-        details.time *= 1000;
-        var story = storyElements[i];
-        var html = storyTemplate(details);
-        story.innerHTML = html;
-        story.addEventListener('click', onStoryClick.bind(this, details));
-        story.classList.add('clickable');
-
-        // Tick down. When zero we can batch in the next load.
-        storyLoadCount--;
-      }
-    }
+  function onStoryData(story, details) {
+    details.time *= 1000;
+    story.addEventListener('click', onStoryClick.bind(this, details));
+    story.classList.add('clickable');
+    story.innerHTML = storyTemplate(details);
+    // Tick down. When zero we can batch in the next load.
+    storyLoadCount--;
 
     // Colorize on complete.
     // if (storyLoadCount === 0) colorizeAndScaleStories();
@@ -224,28 +250,10 @@ APP.Main = (function () {
   function loadStoryBatch() {
     if (storyLoadCount > 0) return;
 
-    storyLoadCount = count;
+    storyEnd = Math.min(storyStart + count, stories.length);
+    storyLoadCount = storyEnd - storyStart;
 
-    var end = storyStart + count;
-    for (var i = storyStart; i < end; i++) {
-      if (i >= stories.length) return;
-
-      var key = String(stories[i]);
-      var story = document.createElement('div');
-      story.setAttribute('id', 's-' + key);
-      story.classList.add('story');
-      story.innerHTML = storyTemplate({
-        title: '...',
-        score: '-',
-        by: '...',
-        time: 0,
-      });
-      main.appendChild(story);
-
-      APP.Data.getStoryById(stories[i], onStoryData.bind(this, key));
-    }
-
-    storyStart += count;
+    requestAnimationFrame(makeStory);
   }
 
   // Bootstrap in the stories.
