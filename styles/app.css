@@ -52,6 +52,7 @@ body {
   -ms-flex-line-pack: stretch;
   -webkit-align-content: stretch;
   align-content: stretch;
+  padding-top: 156px;
   background: #ececec;
 }
 
@@ -60,7 +61,10 @@ a {
 }
 
 .header {
-  width: 100%;
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
   height: 156px;
   background: #ff8f00;
   color: #fff;
@@ -68,7 +72,6 @@ a {
   font-weight: 400;
   padding: 0 0 0 72px;
   z-index: 1;
-  position: fixed;
 }
 
 .header__title-wrapper {
@@ -109,7 +112,6 @@ body.raised .header {
 }
 
 main {
-  padding-top: 156px;
   -webkit-flex: 1;
   -ms-flex: 1;
   flex: 1;

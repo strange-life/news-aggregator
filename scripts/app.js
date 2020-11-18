@@ -234,11 +234,13 @@ APP.Main = (function () {
   main.addEventListener('scroll', function () {
     var scrollTopCapped = Math.min(70, main.scrollTop);
     var scaleString = 'scale(' + (1 - scrollTopCapped / 300) + ')';
+    var headerHeight = 156 - scrollTopCapped + 'px';
 
     // colorizeAndScaleStories();
 
     requestAnimationFrame(function () {
-      header.style.height = 156 - scrollTopCapped + 'px';
+      document.body.style.paddingTop = headerHeight;
+      header.style.height = headerHeight;
       headerTitles.style.webkitTransform = scaleString;
       headerTitles.style.transform = scaleString;
 
