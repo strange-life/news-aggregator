@@ -23,6 +23,8 @@ APP.Main = (function () {
   var storyEnd = 0;
   var count = 100;
   var main = $('main');
+  var header = $('header');
+  var headerTitles = header.querySelector('.header__title-wrapper');
   var storyDetails;
   var storyLoadCount = 0;
   var localeData = {
@@ -56,6 +58,10 @@ APP.Main = (function () {
     score: '-',
     by: '...',
     time: 0,
+  });
+  var commentHtml = storyDetailsCommentTemplate({
+    by: '',
+    text: 'Loading comment...',
   });
 
   function makeStory() {
@@ -105,87 +111,87 @@ APP.Main = (function () {
     // if (storyLoadCount === 0) colorizeAndScaleStories();
   }
 
+  function makeComment(container, comments, index) {
+    if (index === comments.length) return;
+
+    var commentsFragment = document.createDocumentFragment();
+    // make 10 comment per frame
+    var end = Math.min(index + 10, comments.length);
+
+    while (index < end) {
+      var key = comments[index];
+      var comment = document.createElement('aside');
+      comment.setAttribute('id', 'sdc-' + key);
+      comment.classList.add('story-details__comment');
+      comment.innerHTML = commentHtml;
+      commentsFragment.appendChild(comment);
+
+      // Update the comment with the live data.
+      (function (comment) {
+        APP.Data.getStoryComment(key, function (commentDetails) {
+          commentDetails.time *= 1000;
+          requestAnimationFrame(function () {
+            comment.innerHTML = storyDetailsCommentTemplate(
+              commentDetails,
+              localeData,
+            );
+          });
+        });
+      })(comment);
+
+      index++;
+    }
+
+    container.appendChild(commentsFragment);
+    requestAnimationFrame(makeComment.bind(this, container, comments, index));
+  }
+
   function onStoryClick(details) {
     storyDetails = $('#sd-' + details.id);
 
-    // Create and append the story. A visual change...
-    // perhaps that should be in a requestAnimationFrame?
-    // And maybe, since they're all the same, I don't
-    // need to make a new element every single time? I mean,
-    // it inflates the DOM and I can only see one at once.
-    if (!storyDetails) {
-      if (details.url) details.urlobj = new URL(details.url);
+    if (storyDetails) {
+      requestAnimationFrame(showStory);
+      return;
+    }
 
-      var comment;
-      var commentsElement;
-      var storyHeader;
-      var storyContent;
+    if (details.url) details.urlobj = new URL(details.url);
 
-      var storyDetailsHtml = storyDetailsTemplate(details);
-      var kids = details.kids;
-      var commentHtml = storyDetailsCommentTemplate({
-        by: '',
-        text: 'Loading comment...',
-      });
+    var storyDetailsHtml = storyDetailsTemplate(details);
 
-      storyDetails = document.createElement('section');
-      storyDetails.setAttribute('id', 'sd-' + details.id);
-      storyDetails.classList.add('story-details');
-      storyDetails.innerHTML = storyDetailsHtml;
+    storyDetails = document.createElement('section');
+    storyDetails.setAttribute('id', 'sd-' + details.id);
+    storyDetails.classList.add('story-details');
+    storyDetails.innerHTML = storyDetailsHtml;
 
+    var closeButton = storyDetails.querySelector('.js-close');
+    var storyHeader = storyDetails.querySelector('.js-header');
+    var storyContent = storyDetails.querySelector('.js-content');
+
+    closeButton.addEventListener('click', hideStory);
+
+    requestAnimationFrame(function () {
       document.body.appendChild(storyDetails);
-
-      commentsElement = storyDetails.querySelector('.js-comments');
-      storyHeader = storyDetails.querySelector('.js-header');
-      storyContent = storyDetails.querySelector('.js-content');
-
-      var closeButton = storyDetails.querySelector('.js-close');
-      closeButton.addEventListener('click', hideStory);
 
       var headerHeight = storyHeader.getBoundingClientRect().height;
       storyContent.style.paddingTop = headerHeight + 'px';
+      showStory();
+    });
 
-      if (typeof kids === 'undefined') return;
+    var kids = details.kids;
+    if (typeof kids === 'undefined') return;
 
-      for (var k = 0; k < kids.length; k++) {
-        comment = document.createElement('aside');
-        comment.setAttribute('id', 'sdc-' + kids[k]);
-        comment.classList.add('story-details__comment');
-        comment.innerHTML = commentHtml;
-        commentsElement.appendChild(comment);
-
-        // Update the comment with the live data.
-        APP.Data.getStoryComment(kids[k], function (commentDetails) {
-          commentDetails.time *= 1000;
-
-          var comment = commentsElement.querySelector(
-            '#sdc-' + commentDetails.id,
-          );
-          comment.innerHTML = storyDetailsCommentTemplate(
-            commentDetails,
-            localeData,
-          );
-        });
-      }
-    }
-
-    showStory();
+    var commentsElement = storyDetails.querySelector('.js-comments');
+    requestAnimationFrame(makeComment.bind(this, commentsElement, kids, 0));
   }
 
   function showStory() {
     if (!storyDetails) return;
-
-    requestAnimationFrame(function () {
-      storyDetails.classList.add('active');
-    });
+    storyDetails.classList.add('active');
   }
 
   function hideStory() {
     if (!storyDetails) return;
-
-    requestAnimationFrame(function () {
-      storyDetails.classList.remove('active');
-    });
+    storyDetails.classList.remove('active');
   }
 
   // TODO
@@ -226,8 +232,6 @@ APP.Main = (function () {
   // }
 
   main.addEventListener('scroll', function () {
-    var header = $('header');
-    var headerTitles = header.querySelector('.header__title-wrapper');
     var scrollTopCapped = Math.min(70, main.scrollTop);
     var scaleString = 'scale(' + (1 - scrollTopCapped / 300) + ')';
 
