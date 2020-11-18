@@ -237,13 +237,15 @@ APP.Main = (function () {
 
     // colorizeAndScaleStories();
 
-    header.style.height = 156 - scrollTopCapped + 'px';
-    headerTitles.style.webkitTransform = scaleString;
-    headerTitles.style.transform = scaleString;
+    requestAnimationFrame(function () {
+      header.style.height = 156 - scrollTopCapped + 'px';
+      headerTitles.style.webkitTransform = scaleString;
+      headerTitles.style.transform = scaleString;
 
-    // Add a shadow to the header.
-    if (main.scrollTop > 70) document.body.classList.add('raised');
-    else document.body.classList.remove('raised');
+      // Add a shadow to the header.
+      if (main.scrollTop > 70) document.body.classList.add('raised');
+      else document.body.classList.remove('raised');
+    });
 
     // Check if we need to load the next batch of stories.
     var loadThreshold =
