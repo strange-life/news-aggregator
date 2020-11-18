@@ -105,8 +105,7 @@ body.details-active .story {
 }
 
 body.raised .header {
-  box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.16),
-    0px 2px 5px 0px rgba(0, 0, 0, 0.23);
+  box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.23);
 }
 
 main {
@@ -118,6 +117,7 @@ main {
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   z-index: 0;
+  will-change: transform;
 }
 
 main.loading {
@@ -166,18 +166,14 @@ main.loading {
   transition: all 0.4s ease-out;
 }
 
-.story:after {
+.story + .story:after {
   display: block;
   content: '';
   width: 100%;
   position: absolute;
   left: 0;
-  bottom: 0;
+  top: 0;
   border-bottom: 1px solid #dedede;
-}
-
-.story:nth-last-child(-n + 1):after {
-  display: none;
 }
 
 .story__title {
@@ -211,8 +207,7 @@ main.loading {
   text-align: center;
   line-height: 40px;
 
-  box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.06),
-    0px 2px 5px 0px rgba(0, 0, 0, 0.08), 0px 2px 7px 0px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 2px 7px 0px rgba(0, 0, 0, 0.1);
 }
 
 .story-details {
@@ -243,8 +238,7 @@ main.loading {
   height: 100%;
   background: white;
   z-index: 2;
-  box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.06),
-    0px 2px 5px 0px rgba(0, 0, 0, 0.08), 0px 2px 7px 0px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 2px 7px 0px rgba(0, 0, 0, 0.1);
 
   overflow: hidden;
   transition: transform 0.3s, opacity 0.3s ease-out;
@@ -253,11 +247,6 @@ main.loading {
 .story-details.active {
   opacity: 1;
   transform: translateX(-100%);
-}
-
-.story-details * {
-  will-change: transform;
-  transform: translateZ(0);
 }
 
 .story-details__content {
