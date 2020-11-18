@@ -173,7 +173,7 @@ APP.Main = (function () {
       document.body.appendChild(storyDetails);
 
       var headerHeight = storyHeader.getBoundingClientRect().height;
-      storyContent.style.paddingTop = headerHeight + 'px';
+      storyContent.style.marginTop = headerHeight + 'px';
       showStory();
     });
 
